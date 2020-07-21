@@ -7,8 +7,7 @@
 
 ### （def Hi 👋 I'm Joe
 
-  (doto (Programmer.)
-  
+    (doto (Programmer.)
     (.alias "Joe")
       (.hometown "China SiChuan")
         (.university ^{:homepage "http://www.ytu.edu.cn/"} "Yantai University")tuboshu
