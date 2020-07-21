@@ -9,7 +9,6 @@
     (doto (Programmer.)
     (.alias "Joe")
       (.hometown "China SiChuan")
-        (.university ^{:homepage "http://www.ytu.edu.cn/"} "Yantai University")tuboshu
     (.skill {:language [:☕ :Go :Clojure :🐍 :⚙]
              :framework [:Spring :Gin]})
     (.favorites
