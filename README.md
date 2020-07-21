@@ -6,7 +6,7 @@
     (doto (Programmer.)
     (.alias "Joe")
       (.hometown "China SiChuan")
-    (.skill {:language [:☕ :Go :Clojure :🐍 :⚙]
+    (.skill {:language [:☕ :Go :🐍 :⚙]
              :framework [:Spring :Gin]})
     (.favorites
       {:sport ["🚲" "🏊‍"]
