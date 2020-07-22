@@ -29,6 +29,9 @@ func main() {
 		builder.WriteString(content)
 		builder.WriteString("\n")
 	}
+	//write footer
+	builder.WriteString("More on [Job's Blog](https://holicc.github.io/)")
+	//
 	_, err = file.WriteString(builder.String())
 	if err != nil {
 		panic(err)
