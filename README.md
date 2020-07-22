@@ -9,3 +9,4 @@
 * [Rust Function](https://holicc.github.io/2020/07/rocketmq-overstock/) - Sun, 12 Jul 2020 
 * [Rust Packages Management](https://holicc.github.io/2020/07/rust-packages-management/) - Fri, 10 Jul 2020 
 * [Rust Enums And Patter Match](https://holicc.github.io/2020/07/rust-enums-and-patter-match/) - Thu, 09 Jul 2020 
+More on [Job's Blog](https://holicc.github.io/)
