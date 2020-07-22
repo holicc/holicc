@@ -30,6 +30,7 @@ func main() {
 		builder.WriteString("\n")
 	}
 	//write footer
+	builder.WriteString("\n")
 	builder.WriteString("More on [Job's Blog](https://holicc.github.io/)")
 	//
 	_, err = file.WriteString(builder.String())
