@@ -2,7 +2,7 @@
 
 <img align="right" src="https://github-readme-stats.vercel.app/api?username=holicc&show_icons=true&icon_color=805AD5&text_color=718096&bg_color=ffffff&hide_title=true" />
 
-* [Doom-Emacs](https://holicc.github.io/post/emacs/) - Sat, 06 Feb 2021 
+* [Sidecar Pattern](https://holicc.github.io/post/design-pattern/sidecar-pattern/) - Fri, 19 Feb 2021 
 * [Fork And Exec](https://holicc.github.io/post/shell/process/) - Fri, 25 Dec 2020 
 * [Guitar Roadmap](https://holicc.github.io/post/guitar/roadmap/) - Tue, 15 Dec 2020 
 * [Go Timer](https://holicc.github.io/post/golang/go-timer/) - Thu, 10 Dec 2020 
