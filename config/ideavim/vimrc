@@ -1,0 +1,41 @@
+" Quit normal mode
+nnoremap <Space>q  :q<CR>
+nnoremap <Space>Q  :qa!<CR>
+" Move half page faster
+nnoremap <Space>d  <C-d>
+nnoremap <Space>u  <C-u>
+" Quit insert mode
+inoremap jj <Esc>
+inoremap jk <Esc>
+inoremap kk <Esc>
+" Replace action
+nnoremap <Space>rp :action Replace<CR>
+" built in search looks better
+nnoremap / :action Find<CR>
+" (关于窗口操作)
+" 关闭窗口
+nnoremap <Space>wd <C-W>c
+" 切换窗口
+nnoremap <Space>wj <C-W>j
+nnoremap <Space>wk <C-W>k
+nnoremap <Space>wh <C-W>h
+nnoremap <Space>wl <C-W>l
+" 垂直切分窗口
+nnoremap <Space>ws <C-W>s
+nnoremap <Space>w- <C-W>s
+" 水平切分窗口
+nnoremap <Space>wv <C-W>v
+nnoremap <Space>w\| <C-W>v
+" 错误跳转
+nnoremap gn :action GotoNextError<CR>
+nnoremap gp :action GotoPreviousError<CR>
+" 创建新文件
+nnoremap <Space>nf :action NewFile<CR>
+" normal config
+set surround
+set ignorecase
+set smartcase
+set incsearch
+set showmode
+set laststatus=2
+set keep-english-in-normal-and-restore-in-insert
