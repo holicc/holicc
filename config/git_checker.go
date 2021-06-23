@@ -6,28 +6,23 @@ import (
 )
 
 type Git struct {
+	t       *template
 	path    string
 	version string
 	err     error
+	done    bool
 }
 
-func WithGitChecker() *Git {
-	return &Git{}
-}
-
-func (g *Git) View(t chan string) {
-	if g.err != nil {
-		return g.t.Error(g.err)
-	}
-	if g.path == "" {
-		go g.checkGit()
-		return g.t
-	} else {
-		return g.t.Ok(g.version)
+func WithGitChecker(t *template) *Git {
+	return &Git{
+		t: t,
 	}
 }
 
-func (g *Git) checkGit() {
+func (g *Git) Check() {
+	defer func() {
+		g.done = true
+	}()
 	path, err := exec.LookPath("git")
 	if err != nil {
 		g.err = err
@@ -37,8 +32,16 @@ func (g *Git) checkGit() {
 		version, err := cmd.CombinedOutput()
 		if err != nil {
 			g.err = err
+			g.t.Error(g.err)
 		} else {
 			g.version = strings.ReplaceAll(string(version), "\n", "")
+			g.t.Ok(g.version)
 		}
 	}
 }
+
+func (g *Git) IsDone() bool {
+	return g.done
+}
+
+func (g *Git) Template() *template { return g.t }

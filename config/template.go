@@ -6,40 +6,58 @@ import (
 	"strings"
 )
 
-type Template struct {
-	s *spinner.Model
-	b strings.Builder
+type template struct {
+	e error
 	d bool
+
+	name   string
+	msg    string
+	status int
 }
 
-func NewTemplate(s *spinner.Model) *Template {
-	var b strings.Builder
-	return &Template{
-		b: b,
-		s: s,
+func NewTemplate(name string) *template {
+	return &template{
+		name: name,
 	}
 }
 
-func (t *Template) Checker(name string) *Template {
-	t.b.WriteString(fmt.Sprintf(" %sChecking %s...\n", t.s.View(), name))
+func (t *template) Doing() *template {
+	t.status = 0
 	return t
 }
 
-func (t *Template) Ok(info string) *Template {
-	t.b.WriteString(fmt.Sprintf("%s > %s\n", Ok, info))
+func (t *template) Ok(info string) *template {
+	t.status = 1
+	t.msg = info
 	return t
 }
 
-func (t *Template) Warn(msg string) *Template {
-	t.b.WriteString(fmt.Sprintf("%s > %s\n", Warn, msg))
+func (t *template) Warn(msg string) *template {
+	t.status = 2
+	t.msg = msg
 	return t
 }
 
-func (t *Template) Error(err error) *Template {
-	t.b.WriteString(fmt.Sprintf(" %s Error %v", Error, err.Error()))
+func (t *template) Error(err error) *template {
+	t.status = -1
+	t.msg = err.Error()
+	t.e = err
 	return t
 }
 
-func (t *Template) String() string {
-	return t.b.String()
+func (t *template) String(s *spinner.Model) string {
+	var sb strings.Builder
+	switch t.status {
+	case -1:
+		sb.WriteString(fmt.Sprintf(" > %s Error %s", Error, FRed(t.msg)))
+	case 0:
+		sb.WriteString(fmt.Sprintf("%sChecking %s...", s.View(), t.name))
+	case 1:
+		sb.WriteString(fmt.Sprintf("%sChecking %s...\n", Ok, t.name))
+		sb.WriteString(fmt.Sprintf(" > %s\n", FGreen(t.msg)))
+	case 2:
+		sb.WriteString(fmt.Sprintf("%sChecking %s...\n", Warn, t.name))
+		sb.WriteString(fmt.Sprintf(" > %s \n", FYellow(t.msg)))
+	}
+	return sb.String()
 }
