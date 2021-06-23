@@ -1,48 +1,105 @@
 package main
 
 import (
-	"flag"
+	"github.com/charmbracelet/bubbles/spinner"
+	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
 	"log"
-	"os"
-	"os/exec"
+)
+
+const (
+	GREEN = "#66cd00"
+	RED   = "#ee3b3b"
 )
 
 var (
-	help          = false
-	gitRepository = ""
-	outputDir     = ""
+	FGreen = style(GREEN)
+	FRed   = style(RED)
+	Ok     = FGreen("✔️ ")
+	Error  = FRed("✖️ ")
+	Warn   = FRed("⚠️ ")
 )
 
-func main() {
-	// parse args
-	parse()
-	if help || gitRepository == "" {
-		flag.Usage()
-		return
-	}
-	// use $HOME is outputDir is empty
-	if outputDir == "" {
-		if o, e := os.UserHomeDir(); e != nil {
-			log.Fatalln(e)
-		} else {
-			outputDir = o
-		}
-	}
-	// clone config to home dir if doesn't exist
-	cmd := exec.Command("git", "clone", "--depth", "1", gitRepository, outputDir)
-	log.Println(cmd.String())
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	if err := cmd.Run(); err != nil {
-		log.Fatalln(err)
-	}
-	cmd.Wait()
-	// read config
+type config struct {
+	Name       string
+	Shell      string
+	ConfigFile string
+	Doc        string
 }
 
-func parse() {
-	flag.BoolVar(&help, "h", false, "help")
-	flag.StringVar(&gitRepository, "git", "", "eg: --git https://github.com/holicc/doom")
-	flag.StringVar(&outputDir, "o", "", "default: $HOME")
-	flag.Parse()
+type App struct {
+	spinner  spinner.Model
+	t        *Template
+	checkers []Checker
+}
+
+type Checker interface {
+	Check(chan<- string)
+}
+
+func main() {
+
+	s := initSpinner()
+	app := &App{
+		spinner: s,
+		t:       NewTemplate(&s),
+	}
+	app.AddChecker(
+	//WithSystemChecker(),
+	)
+	p := tea.NewProgram(app)
+	if err := p.Start(); err != nil {
+		log.Fatalln(err.Error())
+	}
+}
+
+func (a *App) AddChecker(ck Checker, cks ...Checker) {
+	a.checkers = append(a.checkers, ck)
+	if len(cks) > 0 {
+		a.checkers = append(a.checkers, cks...)
+	}
+}
+
+func (a *App) Init() tea.Cmd {
+	tea.HideCursor()
+	return spinner.Tick
+}
+
+func (a *App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+	switch msg := msg.(type) {
+	case tea.KeyMsg:
+		switch msg.String() {
+		case "ctrl+c", "q":
+			return a, tea.Quit
+		}
+	default:
+		var cmd tea.Cmd
+		a.spinner, cmd = a.spinner.Update(msg)
+		return a, cmd
+	}
+	return a, nil
+}
+
+func (a *App) View() string {
+	return a.t.String()
+}
+
+func style(color string) func(string) string {
+	return func(s string) string {
+		return lipgloss.NewStyle().
+			Foreground(lipgloss.Color(color)).
+			SetString(s).
+			String()
+	}
+}
+
+func initSpinner() spinner.Model {
+	s := spinner.NewModel()
+	s.Spinner = spinner.Dot
+	s.Style = lipgloss.NewStyle().Foreground(lipgloss.Color("205"))
+	return s
+}
+
+func CheckingTemplate(name string) {
+
 }
