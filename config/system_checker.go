@@ -1,29 +1,29 @@
 package main
 
 import (
-	"fmt"
-	"github.com/charmbracelet/bubbles/spinner"
 	"runtime"
 )
 
 type SystemType struct {
 	osName string
+	t      *template
 }
 
 func WithSystemChecker() *SystemType {
-	return &SystemType{}
-}
-
-func (s *SystemType) View(spinner spinner.Model) string {
-	str := " %sChecking system os\n"
-	if s.osName == "" {
-		s.checkSystemOs()
-		return fmt.Sprintf(str, spinner.View())
-	} else {
-		return fmt.Sprintf("%s  > %s\n", fmt.Sprintf(str, Ok), FGreen(s.osName))
+	return &SystemType{
+		t: NewTemplate("System-Os"),
 	}
 }
 
-func (s *SystemType) checkSystemOs() {
+func (s *SystemType) Check() {
 	s.osName = runtime.GOOS
+	s.t.Ok(s.osName)
+}
+
+func (s *SystemType) IsDone() bool {
+	return s.osName != ""
+}
+
+func (s *SystemType) Template() *template {
+	return s.t
 }

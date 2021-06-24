@@ -13,9 +13,9 @@ type Git struct {
 	done    bool
 }
 
-func WithGitChecker(t *template) *Git {
+func WithGitChecker() *Git {
 	return &Git{
-		t: t,
+		t: NewTemplate("Git"),
 	}
 }
 

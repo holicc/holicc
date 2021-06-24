@@ -51,7 +51,7 @@ func (t *template) String(s *spinner.Model) string {
 	case -1:
 		sb.WriteString(fmt.Sprintf(" > %s Error %s", Error, FRed(t.msg)))
 	case 0:
-		sb.WriteString(fmt.Sprintf("%sChecking %s...", s.View(), t.name))
+		sb.WriteString(fmt.Sprintf("%sChecking %s...\n", s.View(), t.name))
 	case 1:
 		sb.WriteString(fmt.Sprintf("%sChecking %s...\n", Ok, t.name))
 		sb.WriteString(fmt.Sprintf(" > %s\n", FGreen(t.msg)))
