@@ -4,38 +4,39 @@ set incsearch
 set NERDTree
 set surround
 set ignorecase
+set ideajoin
 set smartcase
 set incsearch
 set showmode
 set laststatus=2
 set keep-english-in-normal-and-restore-in-insert
 " IDE
+map <Space>ot <Action>(ActivateTerminalToolWindow)
 map <Space>rp <Action>(Replace)
+map <Space>fu <Action>(FindUsages)
 map / <Action>(Find)
 map Q gq
 " VIM
-inoremap <C-G> <Esc>
 inoremap jj <Esc>
 inoremap jk <Esc>
 inoremap kk <Esc>
 " NERDTree
-nnoremap <Space>op :NERDTree<CR>
+map <Space>op :NERDTree<CR>
 " window
 nnoremap <Space>wd <C-W>c
 nnoremap <Space>wj <C-W>j
 nnoremap <Space>wk <C-W>k
 nnoremap <Space>wh <C-W>h
 nnoremap <Space>wl <C-W>l
-nnoremap <Space>ws <C-W>s
-nnoremap <Space>w- <C-W>s
-nnoremap <Space>wv <C-W>v
-nnoremap <Space>w\| <C-W>v
+map <Space>ws <Action>(SplitHorizontally)
+map <Space>wv <Action>(SplitVertically)
 " tabs
-map <Space><TAB> <Action>(NextTab)
 map <Space>tc <Action>(CloseActiveTab)
-map <Space>tn <Action>(NextTab)
-map <Space>tp <Action>(PreviousTab)
 map <Space>tF <Action>(ToggleFullScreen)
+" code
+map <Space>rc <Action>(Run)
+map <Space>rt <Action>(RerunTests)
+map <Space>rft <Action>(RerunFailedTests)
 " error
 map gn <Action>(GotoNextError)
-map gp (Action)(GotoPreviousError)
+map gp <Action>(GotoPreviousError)
